@@ -110,6 +110,40 @@
 		}
 		return $sort_links;
 	}
+
+	
+	//Эта функция создает навигационные гиперссылки на странице результатов поиска, 
+	//основываясь на значениях номера текущей страницы и общего количества страниц
+	function generate_page_links ($user_search, $sort, $cur_page, $num_pages) {
+		$page_links = '';
+		//Если это не первая страница - создание гиперссылки "предыдущая страница" (<<)
+		if ($cur_page > 1) {
+			$page_links .= '<a href="' . $_SERVER['PHP_SELF'] . 
+			'?usersearch=' . $user_search . '&sort=' . $sort . '&page' . ($cur_page - 1) . '"><-</a>';
+		} else {
+			$page_links .= '<-';
+		}
+
+		//Прохождение в цикле всех страниц и создание гиперссылок,
+		//указыващих на конкретные страницы
+		for ($i = 1; $i <= $num_pages; $i++) {
+			if ($cur_page == $i) {
+				$page_links .= ' ' . $i;
+			} else {
+				$page_links .= '<a href="' . $_SERVER['PHP_SELF'] . '?usersearch=' . 
+				$user_search . '&sort=' . $sort . '&page=' . $i . '"> ' . $i . '</a>';
+			}
+		}
+
+		//Если это не последняя страница - создание гиперссылки "следующая страница" (>>)
+		if ($cur_page < $num_pages) {
+			$page_links .= '<a href="' . $_SERVER['PHP_SELF'] . 
+			'?usersearch=' . $user_search . '&sort=' . $sort . '&page' . ($cur_page + 1) . '">-></a>';
+		} else {
+			$page_links .=  ' ->';
+		}
+		return $page_links;
+	}
     
     require_once('connectvars.php');
     
@@ -118,7 +152,7 @@
 
     //расчет данных для разбиения текста результатов поиска на страницы
     $cur_page = isset($_GET['page'])?$_GET['page']:1;
-    $results_per_page = 5; #количество объявлений на странице
+    $results_per_page = 7; #количество объявлений на странице
     $skip = (($cur_page-1) * $results_per_page); #вычисление номера первой записи, с которой будет начат вывод обЪявлений на этой странице
 
 	// Соединение с БД
@@ -155,6 +189,12 @@
         echo '</tr>';
     } 
     echo '</table>';
+
+    //Если вся информация не помещается на одной странице - создаем навигационные гиперссылки
+    if ($num_pages > 1) {
+    	echo generate_page_links($user_search, $sort, $cur_page, $num_pages);
+    }
+
 
     mysqli_close($dbc);
 ?>
