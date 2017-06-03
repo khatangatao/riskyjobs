@@ -119,7 +119,7 @@
 		//Если это не первая страница - создание гиперссылки "предыдущая страница" (<<)
 		if ($cur_page > 1) {
 			$page_links .= '<a href="' . $_SERVER['PHP_SELF'] . 
-			'?usersearch=' . $user_search . '&sort=' . $sort . '&page' . ($cur_page - 1) . '"><-</a>';
+			'?usersearch=' . $user_search . '&sort=' . $sort . '&page=' . ($cur_page - 1) . '"><-</a>';
 		} else {
 			$page_links .= '<-';
 		}
@@ -138,7 +138,7 @@
 		//Если это не последняя страница - создание гиперссылки "следующая страница" (>>)
 		if ($cur_page < $num_pages) {
 			$page_links .= '<a href="' . $_SERVER['PHP_SELF'] . 
-			'?usersearch=' . $user_search . '&sort=' . $sort . '&page' . ($cur_page + 1) . '">-></a>';
+			'?usersearch=' . $user_search . '&sort=' . $sort . '&page=' . ($cur_page + 1) . '">-></a>';
 		} else {
 			$page_links .=  ' ->';
 		}
