@@ -19,10 +19,16 @@ a:link {
 a:hover {
   background-color: #E2F345;
 }
-a:visited {
+a:visited {
   color: #882E2C;
 }
 
 a:active {
   color: #000000;
 }
+
+.error {
+  font-weight: bold;
+  color: #FF0000;
+}
+
